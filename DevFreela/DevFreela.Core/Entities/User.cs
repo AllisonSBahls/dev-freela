@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DevFreela.Core.Entities
 {
-    class User : BaseEntity
+    public class User : BaseEntity
     {
 
         public string Name { get; private set; }
