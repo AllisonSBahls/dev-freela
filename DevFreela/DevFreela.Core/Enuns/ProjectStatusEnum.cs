@@ -10,6 +10,7 @@ namespace DevFreela.Core.Enuns
         INPROGRESS = 1,
         SUSPENDED = 2,
         CANCELLED = 3,
-        STATUS = 4
+        STATUS = 4,
+        FINISHED = 5
     }
 }

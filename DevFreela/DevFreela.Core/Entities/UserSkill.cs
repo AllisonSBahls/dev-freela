@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DevFreela.Core.Entities
 {
-    class UserSkill : BaseEntity
+    public class UserSkill : BaseEntity
     {
         public int IdUser { get; private set; }
         public int IdSkill { get; private set; }
