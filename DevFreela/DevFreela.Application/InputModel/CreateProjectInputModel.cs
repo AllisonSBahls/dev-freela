@@ -6,10 +6,11 @@ namespace DevFreela.Application.InputModel
 {
     public class CreateProjectInputModel
     {
-        public string FullName { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int IdClient { get; set; }
+        public int IdFreelance { get; set; }
+        public decimal TotalCoast { get; set; }
 
     }
 }

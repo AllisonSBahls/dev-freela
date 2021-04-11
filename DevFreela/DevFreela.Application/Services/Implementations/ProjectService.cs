@@ -23,13 +23,16 @@ namespace DevFreela.Application.Services.Implementations
             var projects = _context.Projects;
 
             var projectViewModel = projects
-                .Select(p => new ProjectViewModel(p.Title, p.CreatedAt)).ToList();
+                .Select(p => new ProjectViewModel(p.Id,p.Title, p.CreatedAt)).ToList();
             return projectViewModel;
         }
 
         public ProjectDetailsViewModel GetById(int id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+            if (project == null) return null;
+
             var projectDetailsViewModel = new ProjectDetailsViewModel(
                 project.Id,
                 project.Title,
@@ -50,6 +53,8 @@ namespace DevFreela.Application.Services.Implementations
 
             return project.Id;
         }
+
+
         public void Update(UpdateProjectInputModel inputModel)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == inputModel.Id);
