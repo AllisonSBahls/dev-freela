@@ -3,6 +3,7 @@ using DevFreela.Application.Services.Interfaces;
 using DevFreela.Application.ViewModel;
 using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,10 @@ namespace DevFreela.Application.Services.Implementations
 
         public ProjectDetailsViewModel GetById(int id)
         {
-            var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+            var project = _context.Projects
+                .Include(c => c.Client)
+                .Include(f => f.Freelancer)
+                .SingleOrDefault(p => p.Id == id);
 
             if (project == null) return null;
 
@@ -39,7 +43,9 @@ namespace DevFreela.Application.Services.Implementations
                 project.Description,
                 project.TotalCoast,
                 project.CreatedAt,
-                project.FinishedAt
+                project.FinishedAt,
+                project.Client.Name,
+                project.Freelancer.Name
                 );
 
             return projectDetailsViewModel;
@@ -50,6 +56,7 @@ namespace DevFreela.Application.Services.Implementations
             var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelance, inputModel.TotalCoast);
             
             _context.Projects.Add(project);
+            _context.SaveChanges();
 
             return project.Id;
         }
@@ -65,7 +72,9 @@ namespace DevFreela.Application.Services.Implementations
         public void CreateComment(CreateCommentInputModel inputModel)
         {
             var comment = new ProjectComment(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
-            _context.Comments.Add(comment);
+            _context.ProjectComments.Add(comment);
+            _context.SaveChanges();
+
         }
 
         public void Delete(int id)
@@ -73,6 +82,8 @@ namespace DevFreela.Application.Services.Implementations
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
 
             project.Cancel();
+            _context.SaveChanges();
+
         }
 
         public void Finish(int id)
@@ -80,14 +91,17 @@ namespace DevFreela.Application.Services.Implementations
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
 
             project.Finished();
+            _context.SaveChanges();
+
         }
 
-       
+
         public void Start(int id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
-
             project.Started();
+            _context.SaveChanges();
+
         }
 
 

@@ -4,17 +4,11 @@ using DevFreela.Application.Services.Interfaces;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevFreela.API
 {
@@ -30,14 +24,14 @@ namespace DevFreela.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<OpeningTimeOption>(Configuration.GetSection("OpeningTime"));
 
-            services.AddSingleton<DevFreelaDbContext>();
+            var connectionString = Configuration.GetConnectionString("DBSqlServer");
+            services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(connectionString));
+
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISkillService, SkillService>();
-
-
-            services.Configure<OpeningTimeOption>(Configuration.GetSection("OpeningTime"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

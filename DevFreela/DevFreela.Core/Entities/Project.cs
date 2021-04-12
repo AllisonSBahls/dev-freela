@@ -21,11 +21,11 @@ namespace DevFreela.Core.Entities
         public ProjectStatusEnum Status { get; private set; }
         public List<ProjectComment> Comments { get; set; }
 
-        public Project(string title, string description, int idUser, int idFreelancer, decimal totalCoast)
+        public Project(string title, string description, int idClient, int idFreelancer, decimal totalCoast)
         {
             Title = title;
             Description = description;
-            IdClient = idUser;
+            IdClient = idClient;
             IdFreelancer = idFreelancer;
             TotalCoast = totalCoast;
 
@@ -52,7 +52,7 @@ namespace DevFreela.Core.Entities
 
         public void Started()
         {
-            if (Status == ProjectStatusEnum.INPROGRESS)
+            if (Status == ProjectStatusEnum.CREATED)
             {
                 Status = ProjectStatusEnum.INPROGRESS;
                 StatedAt = DateTime.Now;
