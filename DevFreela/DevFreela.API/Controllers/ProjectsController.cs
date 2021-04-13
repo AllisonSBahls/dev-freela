@@ -1,17 +1,12 @@
-﻿using DevFreela.API.Models;
-using DevFreela.Application.Commands.CreateProject;
+﻿using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.FinishProject;
 using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
-using DevFreela.Application.InputModel;
-using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Queries.GetAllProjects;
+using DevFreela.Application.Queries.GetProject;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
@@ -19,29 +14,26 @@ namespace DevFreela.API.Controllers
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
-        private readonly IProjectService _services;
         private readonly IMediator _mediator;
 
-        public ProjectsController(IProjectService services, IMediator mediator)
+        public ProjectsController(IMediator mediator)
         {
-            _services = services;
             _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Get(string query)
+        public async Task<IActionResult> Get(string query)
         {
-            var projects = _mediator.Send(query);
+            var result = new GetAllProjectsQuery(query);
+            var projects = await _mediator.Send(result);
             return Ok(projects);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var project = _services.GetById(id);
-
-            if (project == null) return NotFound();
-
+            var result = new GetProjectQuery(id);
+            var project = await _mediator.Send(result);
             return Ok(project);
         }
 
