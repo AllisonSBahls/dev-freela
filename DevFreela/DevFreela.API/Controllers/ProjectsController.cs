@@ -1,5 +1,7 @@
 ﻿using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.DeleteProject;
+using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.InputModel;
 using DevFreela.Application.Services.Interfaces;
 using MediatR;
@@ -59,7 +61,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateProjectInputModel updateProject)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateProjectCommand updateProject)
         {
 
             if (updateProject.Description.Length > 200)
@@ -67,15 +69,17 @@ namespace DevFreela.API.Controllers
                 return BadRequest();
             }
 
-            _services.Update(updateProject);
+            await _mediator.Send(updateProject);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _services.Delete(id);
+            var command = new DeleteProjectCommand(id);
+
+            await _mediator.Send(command);
             return NoContent();
         }
 

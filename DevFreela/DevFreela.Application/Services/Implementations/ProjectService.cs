@@ -57,23 +57,6 @@ namespace DevFreela.Application.Services.Implementations
             return projectDetailsViewModel;
         }
 
-        public void Update(UpdateProjectInputModel inputModel)
-        {
-            var project = _context.Projects.SingleOrDefault(p => p.Id == inputModel.Id);
-
-            project.Update(project.Title, project.Description, project.TotalCoast);
-
-        }
-
-        public void Delete(int id)
-        {
-            var project = _context.Projects.SingleOrDefault(p => p.Id == id);
-
-            project.Cancel();
-            _context.SaveChanges();
-
-        }
-
         public void Finish(int id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
