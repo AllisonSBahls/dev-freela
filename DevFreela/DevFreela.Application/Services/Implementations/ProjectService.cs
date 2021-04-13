@@ -57,29 +57,11 @@ namespace DevFreela.Application.Services.Implementations
             return projectDetailsViewModel;
         }
 
-        public int Create(CreateProjectInputModel inputModel)
-        {
-            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelance, inputModel.TotalCoast);
-            
-            _context.Projects.Add(project);
-            _context.SaveChanges();
-
-            return project.Id;
-        }
-
-
         public void Update(UpdateProjectInputModel inputModel)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == inputModel.Id);
 
             project.Update(project.Title, project.Description, project.TotalCoast);
-
-        }
-        public void CreateComment(CreateCommentInputModel inputModel)
-        {
-            var comment = new ProjectComment(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
-            _context.ProjectComments.Add(comment);
-            _context.SaveChanges();
 
         }
 

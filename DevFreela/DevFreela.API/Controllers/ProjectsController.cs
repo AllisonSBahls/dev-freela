@@ -50,6 +50,7 @@ namespace DevFreela.API.Controllers
             }
 
             //var id = _services.Create(createProject);
+
             var id = await _mediator.Send(createProject);
             return CreatedAtAction(
                 nameof(GetById),
@@ -79,9 +80,9 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public IActionResult Post([FromBody] CreateCommentInputModel createComment)
+        public async Task<IActionResult> PostComment([FromBody] CreateProjectCommand createComment)
         {
-            _services.CreateComment(createComment);
+            await _mediator.Send(createComment);
             return NoContent();
         }
 
