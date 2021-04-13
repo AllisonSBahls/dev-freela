@@ -57,33 +57,7 @@ namespace DevFreela.Application.Services.Implementations
             return projectDetailsViewModel;
         }
 
-        public void Finish(int id)
-        {
-            var project = _context.Projects.SingleOrDefault(p => p.Id == id);
-
-            project.Finished();
-            _context.SaveChanges();
-
-        }
-
-
-        public void Start(int id)
-        {
-            var project = _context.Projects.SingleOrDefault(p => p.Id == id);
-            project.Started();
-            // _context.SaveChanges();
-
-            using(var sqlConnection = new SqlConnection(_connectionString))
-            {
-                sqlConnection.Open();
-
-                var script = "UPDATE Projects SET Status = @status, StartedAt = @startedAt WHERE id = @id";
-
-                sqlConnection.Execute(script, new { status = project.Status, startedAt = project.StartedAt, id });
-            }
-
-        }
-
+  
 
     }
 }

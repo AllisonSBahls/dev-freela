@@ -1,6 +1,8 @@
 ﻿using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.DeleteProject;
+using DevFreela.Application.Commands.FinishProject;
+using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.InputModel;
 using DevFreela.Application.Services.Interfaces;
@@ -29,7 +31,7 @@ namespace DevFreela.API.Controllers
         [HttpGet]
         public IActionResult Get(string query)
         {
-            var projects = _services.GetAll(query);
+            var projects = _mediator.Send(query);
             return Ok(projects);
         }
 
@@ -91,16 +93,18 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/start")]
-        public IActionResult Start(int id)
+        public async Task<IActionResult> Start(int id)
         {
-            _services.Start(id);
+            var command = new StartProjectCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
 
         [HttpPut("{id}/finish")]
-        public IActionResult Finish(int id)
+        public async Task<IActionResult> Finish(int id)
         {
-            _services.Finish(id);
+            var command = new FinishProjectCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
     }

@@ -18,17 +18,6 @@ namespace DevFreela.Application.Services.Implementations
         {
             _context = context;
         }
-        public int Create(CreateUserInputModel inputModel)
-        {
-            var user = new User(inputModel.Name, inputModel.Email, inputModel.BirthDate);
-
-            _context.Users.Add(user);
-            _context.SaveChanges();
-
-
-            return user.Id;
-        }
-
         public UserViewModel GetById(int id)
         {
             var user = _context.Users.SingleOrDefault(p => p.Id.Equals(id));
