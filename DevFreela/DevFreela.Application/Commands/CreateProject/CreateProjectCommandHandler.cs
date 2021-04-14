@@ -1,4 +1,5 @@
 ﻿using DevFreela.Core.Entities;
+using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using System;
@@ -11,18 +12,17 @@ namespace DevFreela.Application.Commands.CreateProject
 {
     public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, int>
     {
-        private readonly DevFreelaDbContext _context;
+        private readonly IProjectRepository _repository;
 
-        public CreateProjectCommandHandler(DevFreelaDbContext context)
+        public CreateProjectCommandHandler(IProjectRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
+
         public async Task<int> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = new Project(request.Title, request.Description, request.IdClient, request.IdFreelance, request.TotalCoast);
-
-            await _context.Projects.AddAsync(project);
-            await _context.SaveChangesAsync();
+            await _repository.AddAsync(project);
 
             return project.Id;
         }
