@@ -1,47 +1,35 @@
-﻿using Dapper;
-using DevFreela.Application.ViewModel;
+﻿using DevFreela.Core.DTOs;
+using DevFreela.Core.Repositories;
 using MediatR;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DevFreela.Application.Queries.GetAllSkills
 {
-    public class GetAllSkillsQueryHandler : IRequestHandler<GetAllSkillsQuery, List<SkillViewModel>>
+    public class GetAllSkillsQueryHandler : IRequestHandler<GetAllSkillsQuery, List<SkillDTO>>
     {
-        private readonly string _connectionString;
+        private readonly ISkillRepository _repository;
 
-        public GetAllSkillsQueryHandler(IConfiguration configuration)
+        public GetAllSkillsQueryHandler(ISkillRepository repository)
 
         {
-            _connectionString = configuration.GetConnectionString("DBSqlServer");
+            _repository = repository;
         }
-        public async Task<List<SkillViewModel>> Handle(GetAllSkillsQuery request, CancellationToken cancellationToken)
+        public async Task<List<SkillDTO>> Handle(GetAllSkillsQuery request, CancellationToken cancellationToken)
         {
-            using (var sqlConnection = new SqlConnection(_connectionString))
-            {
-                sqlConnection.Open();
 
-                var script = "SELECT id, Description FROM Skills";
+            return await _repository.GetAllAsync();
 
-                var result = await sqlConnection.QueryAsync<SkillViewModel>(script);
+            /*
+               var skill =  await _repository.GetAll();
 
-                return result.ToList();
+               var skillViewModel = skill
+                   .Select(p => new SkillViewModel(p.Id, p.Description)).ToList();
 
-                /*
-                   var skill = _context.Skills;
+               return skillViewModel;
+             */
 
-                   var skillViewModel = skill
-                       .Select(p => new SkillViewModel(p.Id, p.Description)).ToList();
-
-                   return skillViewModel;
-                 */
-            }
         }
     }
 }
