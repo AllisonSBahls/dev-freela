@@ -57,7 +57,7 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             {
                 sqlConnection.Open();
                 var script = "UPDATE Projects SET Status = @status, StartedAt = @startedAt WHERE id = @id";
-                await sqlConnection.ExecuteAsync(script, new { status = project.Status, statedAt = project.StartedAt, id = project.Id });
+                await sqlConnection.ExecuteAsync(script, new { status = project.Status, startedAt = project.StartedAt, id = project.Id });
             }
         }
 

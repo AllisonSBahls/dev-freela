@@ -1,4 +1,5 @@
-﻿using DevFreela.Application.Commands.CreateProject;
+﻿using DevFreela.Application.Commands.CreateComment;
+using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.FinishProject;
 using DevFreela.Application.Commands.StartProject;
@@ -41,17 +42,6 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand createProject)
         {
-
-            if (!ModelState.IsValid)
-            {
-                var messages = ModelState
-                    .SelectMany(ms => ms.Value.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToList();
-
-                return BadRequest(messages);
-            }
-
             //var id = _services.Create(createProject);
 
             var id = await _mediator.Send(createProject);
@@ -64,11 +54,6 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateProjectCommand updateProject)
         {
-
-            if (updateProject.Description.Length > 200)
-            {
-                return BadRequest();
-            }
 
             await _mediator.Send(updateProject);
 
@@ -85,7 +70,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public async Task<IActionResult> PostComment([FromBody] CreateProjectCommand createComment)
+        public async Task<IActionResult> PostComment([FromBody] CreateCommentCommand createComment)
         {
             await _mediator.Send(createComment);
             return NoContent();

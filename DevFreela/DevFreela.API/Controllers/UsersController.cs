@@ -29,16 +29,6 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand createUser)
         {
-            if (!ModelState.IsValid)
-            {
-                var messages = ModelState
-                    .SelectMany(ms => ms.Value.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToList();
-                
-                return BadRequest(messages);
-            }
-
             var id = await _mediator.Send(createUser);
 
             return CreatedAtAction(nameof(GetById), new { id = id }, createUser);

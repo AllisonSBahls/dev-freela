@@ -30,8 +30,9 @@ namespace DevFreela.Application.Queries.GetProject
                 project.Title,
                 project.Description,
                 project.TotalCoast,
-                project.CreatedAt,
+                project.StartedAt,
                 project.FinishedAt,
+                project.CreatedAt,
                 project.Client.Name,
                 project.Freelancer.Name
                 );

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DevFreela.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,7 @@ namespace DevFreela.Infrastructure.Persistence.Migrations
                     IdClient = table.Column<int>(type: "int", nullable: false),
                     IdFreelancer = table.Column<int>(type: "int", nullable: false),
                     TotalCoast = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    StatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FinishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
