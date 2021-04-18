@@ -16,7 +16,7 @@ namespace DevFreela.Application.ViewModel
 
         public string ClientFullName { get; private set; }
         public string FreelancerFullName { get; private set; }
-        public ProjectDetailsViewModel(int id, string title, string description, decimal totalCoast, DateTime startedAt, DateTime finishedAt, DateTime createdAt, string clientFullName, string freelancerFullName)
+        public ProjectDetailsViewModel(int id, string title, string description, decimal totalCoast, DateTime? startedAt, DateTime? finishedAt, DateTime? createdAt, string clientFullName, string freelancerFullName)
         {
             Id = id;
             Title = title;
