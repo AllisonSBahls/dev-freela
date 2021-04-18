@@ -11,6 +11,7 @@ namespace DevFreela.Core.Enuns
         SUSPENDED = 2,
         CANCELLED = 3,
         STATUS = 4,
-        FINISHED = 5
+        FINISHED = 5,
+        PAYMENTPENDING = 6
     }
 }
